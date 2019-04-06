@@ -1,0 +1,3 @@
+在  cyryquery 表添加下面字段
+alter table cyryquery add (FEATURE clob);
+comment on column cyryquery.FEATURE is '人脸特征码';

@@ -1,0 +1,19 @@
+logging:
+  level:
+    com:
+      huntto:
+        hii:
+          dao: debug
+mybatis:
+  mapper-locations: classpath:/mybatis/mapper/*.xml
+server:
+  port: 8082
+spring:
+  datasource:
+    driverClassName: oracle.jdbc.OracleDriver
+    password: jkzjk
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:oracle:thin:@192.168.22.213:1521:jkzjkww
+    username: jkzjkww
+  jpa:
+    database-platform: org.hibernate.dialect.Oracle10gDialect

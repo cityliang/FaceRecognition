@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huntto.dao.OlexamCyryJbxxDao">
+	<!-- 宁波 查询人员信息接口 通过身份证号查询-->
+	<!-- <select id="selectCYRYVo1" parameterType="java.lang.String" resultMap="CYRYVOMap1">
+		select t.ID,tj.health_card_code AS BH,t.name as XM,t.sex AS XB,t.age AS NL,t.REQUEST_TYPE AS LB,
+			tj.IS_ELIGIBLE TJJG,tj.EXAM_TIME AS FZSJ,tj.TJDPT_NAME AS FZJG,t.idcard AS IDCARD,t.photo AS PHOTO,
+			xzxk.qrimg AS QRIMG
+				from OLEXAM_CYRY_JBXX t
+		        	left join OLEXAM_CYRY_TJXX tj on t.id = tj.cyry_id
+		        	left join XZXK_QRCODE xzxk on t.id = xzxk.mid
+        		where rownum=1 and t.idcard = #{idcard}
+	</select> -->
+	<!-- 健康证 查询人员信息接口 通过身份证号查询-->
+	<!-- <select id="selectCYRYVO" parameterType="java.lang.String"
+		resultMap="CYRYVOMap1">
+		select t.ID,t.BH,t.XM,t.XB,t.NL,t.LB,t.TJJG,t.FZSJ,t.IDCARD,t.PHOTO,qr.QRIMG from CYRYQUERY t
+			LEFT JOIN XZXK_QRCODE qr on t.id = qr.mid
+				where rownum=1 and t.idcard = #{idcard} 
+        			order by t.FZSJ desc
+	</select> -->
+	<!-- <select id="selectCYRYVO" parameterType="java.lang.String"
+		resultMap="CYRYVOMap1">
+		select t.ID,t.BH,t.XM,t.XB,t.NL,t.LB,t.TJJG,t.FZSJ,t.FZJG,t.IDCARD,t.PHOTO from CYRYQUERY t
+				where rownum=1 and t.idcard = #{idcard} 
+        			order by t.FZSJ desc
+	</select> -->
+	<!-- 通过身份证号查询人员id 和该人员二维码信息 -->
+	<select id="selectCYRYVo1" parameterType="java.lang.String" resultMap="CYRYVOMap1">
+		select t.ID,t.BH,t.XM,t.XB,t.NL,t.LB,t.TJJG,t.FZSJ,t.FZJG,t.IDCARD,t.PHOTO from CYRYQUERY t
+				where t.idcard = #{idcard} 
+        			order by t.FZSJ desc
+	</select>
+	<!-- 通过从业人员姓名查询从业人员信息 -->
+	<update id="updateFEATURE">
+		update CYRYQUERY t set t.FEATURE = #{FEATURE}
+				where t.idcard = #{idCard}
+	</update>
+	<!-- 通过从业人员姓名查询从业人员信息 -->
+	<select id="getCYRYbyName" parameterType="java.lang.String" resultMap="CYRYVOMap3">
+		select t.XM,t.IDCARD,t.PHOTO from CYRYQUERY t
+				where t.XM = #{XM} 
+        			order by t.FZSJ desc
+	</select>
+	<!-- 通过从业人员姓名查询从业人员信息1 -->
+	<select id="getCYRYbyName1" parameterType="java.lang.String" resultMap="CYRYVOMap1">
+		select t.ID,t.BH,t.XM,t.XB,t.NL,t.LB,t.TJJG,t.FZSJ,t.FZJG,t.IDCARD,t.PHOTO from CYRYQUERY t
+				where t.XM = #{XM} 
+        			order by t.FZSJ desc
+	</select>
+	<!-- 通过身份证号查询人员id 和该人员二维码信息 -->
+	<!-- <select id="selectCYRYID" parameterType="java.lang.String" resultMap="CYRYVOMap1">
+		select t.ID,t.BH,t.XM,t.XB,t.NL,t.LB,t.TJJG,t.FZSJ,t.FZJG,t.IDCARD,t.PHOTO from CYRYQUERY t
+				where rownum=1 and t.idcard = #{idcard} 
+        			order by t.FZSJ desc
+	</select> -->
+	<select id="selectQRCODE1" parameterType="java.lang.String" resultType="com.huntto.entity.CyryQRIMG">
+		select qr.QRIMG from XZXK_QRCODE qr
+				where qr.mid = #{ID} 
+        			order by qr.CREATE_TIME desc
+	</select>
+	<!-- <select id="selectQRCODE" parameterType="java.lang.String" resultType="com.huntto.entity.CyryQRIMG">
+		select qr.QRIMG from XZXK_QRCODE qr
+				where rownum=1 and qr.mid = #{ID} 
+        			order by qr.CREATE_TIME desc
+	</select> -->
+	<!-- 通过从业人员ID查询体检机构名称 -->
+	<select id="selectFZJG" parameterType="java.lang.String" resultType="java.lang.String">
+		select t.TJDPT_NAME from olexam_cyry_tjxx t where t.cyry_id = #{cyry_id}
+	</select>
+	
+	
+	<!-- 宁波 查询人员信息接口 通过身份证号查询-->
+	<!-- <select id="selectCYRYVo" parameterType="java.lang.String" resultType="com.huntto.entity.CyryVo">
+		select t.ID,t.name,t.age,t.sex,t.idcard,t.REQUEST_TYPE,t.UPDATE_TIME,t.tj.cyry_id,t.photo,tj.health_card_code,xzxk.qrimg from OLEXAM_CYRY_JBXX t
+        	left join OLEXAM_CYRY_TJXX tj on t.id = tj.cyry_id
+        	left join XZXK_QRCODE xzxk on t.id = xzxk.mid
+        		where rownum=1 and t.idcard = #{FZSJ}
+        		where rownum=1 and t.UPDATE_TIME like #{FZSJ} 
+        			order by t.UPDATE_TIME desc
+	</select> -->
+	
+	<!-- 同步人员照片和身份证接口 -->
+	<!-- <select id="queryPhoto" parameterType="java.lang.String" resultType="com.huntto.entity.CyryVo1">
+		select t.ID,t.BH,t.XM,t.XB,t.NL,t.LB,t.TJJG,t.FZSJ,t.IDCARD,t.PHOTO,qr.MID,qr.QRIMG from CYRYQUERY t
+			LEFT JOIN XZXK_QRCODE qr on t.id = qr.mid
+				where (t.PHOTO is not null or qr.QRIMG is not null) and rownum=1
+		<if test="FZSJ != null">
+			and t.FZSJ like #{FZSJ}
+		</if>
+	</select> -->
+	
+	<resultMap id="CYRYVOMap1" type="com.huntto.entity.CyryVo1">
+		<result column="ID" property="ID" />
+		<result column="BH" property="BH" />
+		<result column="XM" property="XM" />
+		<result column="XB" property="XB" />
+		<result column="NL" property="NL" />
+		<result column="LB" property="LB" />
+		<result column="TJJG" property="TJJG" />
+		<result column="FZSJ" property="FZSJ" />
+		<result column="FZJG" property="FZJG" />
+		<result column="IDCARD" property="IDCARD" />
+		
+		<result column="QRIMG" property="QRIMG" />
+		<result column="PHOTO" property="PHOTO" />
+	</resultMap>
+	
+	<resultMap id="CYRYVOMap2" type="com.huntto.entity.CyryVo2">
+		<result column="XM" property="XM" />
+		<result column="IDCARD" property="IDCARD" />
+	</resultMap>
+	
+	<resultMap id="CYRYVOMap3" type="com.huntto.entity.CyryVo3">
+		<result column="XM" property="XM" />
+		<result column="IDCARD" property="IDCARD" />
+		<result column="PHOTO" property="PHOTO" />
+		<result column="FEATURE" property="FEATURE" />
+	</resultMap>
+</mapper>

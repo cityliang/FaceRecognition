@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huntto.dao.CyryDao">
+	<!-- 判断用户名和密码是不是正确-->
+	<select id="findLogin" parameterType="java.util.Map">
+		select * from OLEXAM_PHYSICAL_EXAM_USER  where user_id=#{user_id} and password = #{psw}
+	</select>
+	<!-- 通过身份证号获取从业人员健康证信息 单表查询  从 OLEXAM_CYRY_JBXX 表查询 -->
+	<select id="selectCYRYVo1" parameterType="java.lang.String" resultMap="CyryVO1Map">
+		select t.ID,t.name as XM,t.sex AS XB,t.age AS NL,t.REQUEST_TYPE AS LB,t.idcard AS IDCARD,t.photo AS PHOTO
+				from OLEXAM_CYRY_JBXX t
+        		where t.idcard = #{idcard}
+        		order by t.create_time,t.UPDATE_TIME desc
+	</select>
+	
+	<!-- 通过身份证号查询人员id 和该人员二维码信息 从 CYRYQUERY 表查询 -->
+	<select id="selectCYRYID" parameterType="java.lang.String" resultMap="CyryVO1Map">
+		select t.ID,t.BH,t.XM,t.XB,t.NL,t.LB,t.TJJG,t.FZSJ,t.FZJG,t.IDCARD,t.PHOTO,t.MEDI_INTID from CYRYQUERY t
+				where t.idcard = #{idcard} 
+        			order by t.FZSJ desc
+	</select>
+	<!-- 通过从业人员ID 查询该人员二维码 从 XZXK_QRCODE 表查询 -->
+	<select id="selectQRCODE" parameterType="java.lang.String" resultType="com.huntto.entity.CyryQRIMG">
+		select qr.QRIMG from XZXK_QRCODE qr
+				where qr.mid = #{ID} 
+        			order by qr.CREATE_TIME desc
+	</select>
+	
+	<!-- 通过从业人员ID查询体检机构名称 -->
+	<select id="selectTJXX" parameterType="java.lang.String" resultType="com.huntto.entity.CyryQRIMG">
+		select t.CYRY_ID as ID,t.TJDPT_NAME as FZJG,t.health_card_code AS BH,t.IS_ELIGIBLE TJJG
+			from olexam_cyry_tjxx t where t.cyry_id = #{cyry_id}
+			order by t.create_time,t.UPDATE_TIME desc
+	</select>
+	
+	
+	
+	<!-- 通过身份证号获取从业人员健康证信息 关联查询 -->
+	<!-- <select id="selectCYRYVo1" parameterType="java.lang.String" resultMap="CyryVO1Map">
+		select t.ID,tj.health_card_code AS BH,t.name as XM,t.sex AS XB,t.age AS NL,t.REQUEST_TYPE AS LB,
+			tj.IS_ELIGIBLE TJJG,tj.EXAM_TIME AS FZSJ,tj.TJDPT_NAME AS FZJG,t.idcard AS IDCARD,t.photo AS PHOTO,
+			xzxk.qrimg AS QRIMG
+				from OLEXAM_CYRY_JBXX t
+		        	left join OLEXAM_CYRY_TJXX tj on t.id = tj.cyry_id
+		        	left join XZXK_QRCODE xzxk on t.id = xzxk.mid
+        		where rownum=1 and t.idcard = #{idcard}
+	</select> -->
+	
+	<resultMap id="CyryVO1Map" type="com.huntto.entity.CyryVo1">
+		<result column="ID" property="ID" />
+		<result column="BH" property="BH" />
+		<result column="XM" property="XM" />
+		<result column="XB" property="XB" />
+		<result column="NL" property="NL" />
+		<result column="LB" property="LB" />
+		<result column="TJJG" property="TJJG" />
+		<result column="FZSJ" property="FZSJ" />
+		<result column="FZJG" property="FZJG" />
+		<result column="IDCARD" property="IDCARD" />
+		
+		<result column="QRIMG" property="QRIMG" />
+		<result column="PHOTO" property="PHOTO" />
+		<result column="MEDI_INTID" property="MEDI_INTID" />
+	</resultMap>
+	
+</mapper>

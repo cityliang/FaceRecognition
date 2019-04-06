@@ -1,0 +1,314 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.alibaba.cloud</groupId>
+  <artifactId>FaceRecognition</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  
+  	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>1.5.9.RELEASE</version>
+	</parent>
+
+
+	<properties>
+		<jdk.version>1.7</jdk.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<!--<exclusions> <exclusion> <groupId>org.springframework.boot</groupId> 
+				<artifactId>spring-boot-starter-tomcat</artifactId> </exclusion> </exclusions> -->
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<!--<scope>provided</scope> -->
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.alibaba/druid -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+			<version>1.1.12</version>
+		</dependency>
+
+		<!-- Http Client -->
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.httpcomponents</groupId>
+		    <artifactId>httpcore</artifactId>
+		</dependency>
+		
+		
+		<!-- https://mvnrepository.com/artifact/commons-collections/commons-collections -->
+		<dependency>
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.3.2</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/commons-beanutils/commons-beanutils -->
+		<dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
+		</dependency>
+
+
+		<!-- Oracle jdbc -->
+		<dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>ojdbc14</artifactId>
+			<version>10.2.0.4.0</version>
+			<!--<version>9.0.2.0.0</version> -->
+			<!--<version>11.2.0.2.0</version> -->
+		</dependency>
+		<!-- Mysql jdbc -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+
+		<!-- mybatis -->
+		<dependency>
+			<groupId>org.mybatis.spring.boot</groupId>
+			<artifactId>mybatis-spring-boot-starter</artifactId>
+			<version>1.2.0</version>
+		</dependency>
+		<!-- test -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+		    <groupId>junit</groupId>
+		    <artifactId>junit</artifactId>
+		</dependency>
+		<!-- jdbc -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jdbc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+			<exclusions>
+				<!--消除hibernate-core 5.0.12.Final的依赖-->
+				<exclusion>
+					<artifactId>hibernate-core</artifactId>
+					<groupId>org.hibernate</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+        <!--添加hibernate-core 5.0.11.Final依赖，原因：5.0.12版本里面缺少OptimisticLockException类-->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>5.0.11.Final</version>
+        </dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+		<dependency>
+		    <groupId>org.projectlombok</groupId>
+		    <artifactId>lombok</artifactId>
+		    <scope>provided</scope>
+		</dependency>
+		
+		<!-- swagger生成接口API -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>2.8.0</version>
+        </dependency>
+
+        <!-- 接口API生成html文档 -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>2.8.0</version>
+        </dependency>
+        <!-- maven 打包插件 -->
+		<dependency>
+	        <groupId>org.apache.maven.plugins</groupId>
+	        <artifactId>maven-resources-plugin</artifactId>
+	        <version>2.4.3</version>
+	    </dependency>
+
+		<!-- <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-jar-plugin</artifactId>
+            <version>3.1.0</version>
+        </dependency> -->
+	</dependencies>
+
+
+
+	<build>
+		<finalName>FaceRecognition</finalName>
+		<!-- <resources>
+			<resource>
+				<directory>src\main\resources</directory>
+			</resource>
+		</resources> -->
+		<plugins>
+			<plugin>
+			    <artifactId>maven-assembly-plugin</artifactId>
+			    <configuration>
+			         <!-- 打包后的包名是否包含assembly的id名 -->
+			        <appendAssemblyId>false</appendAssemblyId>
+			          <!-- 指定最后tar或者zip包的名字 -->
+			          <finalName>FaceRecognition</finalName>
+			          <!-- tar或者zip包的输出目录 -->
+			          <!-- ../ 是指当前项目的根目录 ，例如：F:\pvpsddp\pvpsddp-gateway 的上一级-->
+			          <outputDirectory>C:\STS\FaceRecognition\target</outputDirectory>
+			        <descriptors>
+			              <!-- 引用的assembly配置文件，可以用多个，即可以同时打包多个格式的包 -->
+			            <descriptor>src/main/resources/assembly.xml</descriptor>
+			        </descriptors>
+			    </configuration>
+			    <executions>
+			      <!-- phase加入package后，则在执行maven package时就可以调用maven-assembly-plugin插件定义的打包方式 -->
+			        <execution>
+			          <!--名字任意 -->
+			            <id>make-assembly</id>
+			           <!-- 绑定到package生命周期阶段上 -->
+			            <phase>package</phase>
+			            <goals>
+			               <!-- 只运行一次 --> 
+			                <goal>single</goal>
+			            </goals>
+			        </execution>
+			    </executions>
+			</plugin>
+			<plugin> <!-- 该插件的主要功能是配置编译插件及jdk版本 编码格式等 -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>${jdk.version}</source>
+					<target>${jdk.version}</target>
+					<encoding>${project.build.sourceEncoding}</encoding>
+				</configuration>
+			</plugin>
+			
+			<!-- 1、设置jar的入口类 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<!-- 排除配置文件 不打包资源文件（配置文件和依赖包分开） -->
+		            <excludes>
+		                <exclude>*.**</exclude>
+		                <exclude>*/*.xml</exclude>
+		                <exclude>*/*.txt</exclude>
+		            </excludes>
+					<archive>
+						<!--生成的jar中，不要包含pom.xml和pom.properties这两个文件-->
+                        <addMavenDescriptor>false</addMavenDescriptor>
+						<manifest>
+							<!-- MANIFEST.MF 中 Class-Path 加入前缀 -->
+							<addClasspath>true</addClasspath>
+							 <!-- jar包不包含唯一版本标识 -->
+							<classpathPrefix>lib/</classpathPrefix>
+							<!--指定入口类 -->
+							<mainClass>com.huntto.JkzjkAPP</mainClass>
+						</manifest>
+						<manifestEntries>
+		                    <!--MANIFEST.MF 中 Class-Path 加入资源文件目录 -->
+		                    <Class-Path>./resources/</Class-Path>
+		                </manifestEntries>
+					</archive>
+					<outputDirectory>${project.build.directory}</outputDirectory>
+				</configuration>
+			</plugin>
+			<!--2、把附属的jar打到jar内部的lib目录中 -->
+			<plugin>
+	            <groupId>org.apache.maven.plugins</groupId>
+	            <artifactId>maven-dependency-plugin</artifactId>
+	            <executions>
+	                <execution>
+	                    <id>copy-dependencies</id>
+	                    <phase>prepare-package</phase>
+	                    <goals>
+	                        <goal>copy-dependencies</goal>
+	                    </goals>
+	                    <configuration>
+	                        <outputDirectory>${project.build.directory}/lib</outputDirectory>
+	                        <overWriteReleases>false</overWriteReleases>
+	                        <overWriteSnapshots>false</overWriteSnapshots>
+	                        <overWriteIfNewer>true</overWriteIfNewer>
+	                    </configuration>
+	                </execution>
+	            </executions>
+	        </plugin>
+
+			<!-- 3、打包过程忽略Junit测试 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
+			<!-- mybatis-generator -->
+			<!-- <plugin>
+				<groupId>org.mybatis.generator</groupId>
+				<artifactId>mybatis-generator-maven-plugin</artifactId>
+				<version>1.3.2</version>
+				<configuration>
+					<verbose>true</verbose>
+					<overwrite>true</overwrite>
+				</configuration>
+			</plugin> -->
+			
+			<!-- 该插件的作用是用于复制指定的文件 -->
+		    <!-- <plugin>
+		        <artifactId>maven-resources-plugin</artifactId>
+		        <executions>
+		            <execution>
+		                <id>copy-resources</id>
+		                <phase>package</phase>
+		                <goals>
+		                    <goal>copy-resources</goal>
+		                </goals>
+		                <configuration>
+		                    <resources>
+		                        <resource>
+		                            <directory>src/main/resources</directory>
+		                            <excludes>
+						                <exclude>*.yml</exclude>
+						                <exclude>*.txt</exclude>
+						            </excludes>
+		                            <includes>
+		                                <include>*.properties</include>
+		                                <include>*.yml</include>
+		                            </includes>
+		                        </resource>
+		                    </resources>
+		                    <outputDirectory>${project.build.directory}/resources</outputDirectory>
+		                </configuration>
+		            </execution>
+		        </executions>
+		    </plugin> -->
+		</plugins>
+	</build>
+	
+	
+</project>

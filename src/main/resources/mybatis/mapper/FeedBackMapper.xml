@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huntto.dao.FeedBackDao">
+	<!-- 反馈表字段 -->
+	<sql id="Feed_Back_col">ID,FBType,FBContent,IDCARD,CREATE_TIME,UPDATE_TIME</sql>
+
+	<!-- 查询反馈信息-->
+	<select id="selectFeedBack" parameterType="com.huntto.entity.FeedBack" resultMap="feedBackMap">
+		select <include refid="Feed_Back_col" /> from Feed_Back t where 1=1 and IS_CL = '0'
+		<if test="ID != null and ID !=''">
+			and t.ID = #{ID}
+		</if>
+		<if test="FBType != null and FBType !=''">
+			and t.FBType like "%"#{FBType}"%"
+		</if>
+		<if test="IDCARD != null and IDCARD !=''">
+			and t.IDCARD = #{IDCARD}
+		</if>
+	</select>
+	<!-- 通过ID查询反馈信息-->
+	<select id="selectFeedBackByID" parameterType="java.lang.String" resultType="com.huntto.entity.FeedBack">
+		select * from Feed_Back t where 1=1 and t.ID = #{ID}
+	</select>
+	<!-- 通过身份证号查询体检机构id -->
+	<select id="selectTJJGID" parameterType="java.lang.String" resultType="java.lang.String">
+		select MEDI_INTID from olexam_cyry_jbxx t where rownum=1 and t.idcard = #{idcard} 
+        			order by t.create_time,t.UPDATE_TIME desc
+	</select>
+	
+	<update id="updateFeedBack">
+		update Feed_Back t set IS_CL = #{IS_CL},t.UPDATE_TIME=TO_DATE(#{UPDATE_TIME},'YYYY-MM-DD hh24:mi:ss')
+			where id = #{ID}
+		<!-- <set>
+			<if test="FBType != null and FBType !='' ">
+				t.FBType=#{FBType},
+			</if>
+			<if test="FBContent != null and FBContent !='' ">
+				t.FBContent=#{FBContent},
+			</if>
+			<if test="IDCARD != null and IDCARD !='' ">
+				t.IDCARD=#{IDCARD},
+			</if>
+			<if test="UPDATE_TIME != null and UPDATE_TIME !='' ">
+				t.UPDATE_TIME=#{UPDATE_TIME},
+			</if>
+			<if test="IS_CL != null and IS_CL !='' ">
+				t.IS_CL=#{IS_CL},
+			</if>
+			<if test="MEDI_INTID != null and MEDI_INTID !='' ">
+				t.MEDI_INTID=#{MEDI_INTID},
+			</if>
+		</set> 
+		where id = #{ID}-->
+	</update>
+	
+	<!-- 插入反馈信息 -->
+	<insert id="insertFeedBack" parameterMap="feedBackMapParam" >
+		insert into Feed_Back(ID,FBType,FBContent,IDCARD,CREATE_TIME,IS_CL,MEDI_INTID) 
+			values(#{ID},#{FBType},#{FBContent},#{IDCARD},TO_DATE(#{CREATE_TIME},'YYYY-MM-DD hh24:mi:ss'),#{IS_CL},#{MEDI_INTID})
+			<!-- Oracle 插入字符串 时间 -->
+			<!-- values(#{ID},#{FBType},#{FBContent},#{CREATE_TIME}) -->
+			<!-- Oracle 语句 插入系统时间 -->
+			<!-- values(#{ID},#{FBType},#{FBContent},sysdate) -->
+			<!-- insert into Feed_Back(ID,FBType,FBContent,IDCARD,CREATE_TIME) 
+			values(#{ID},#{FBType},#{FBContent},#{IDCARD},str_to_date(#{CREATE_TIME},'YYYY-MM-DD')) -->
+			<!-- Mysql 语句 -->
+			<!-- insert into Feed_Back(<include refid="Feed_Back_col" />) 
+			values(#{ID},#{FBType},#{FBContent},#{IDCARD},#{CREATE_TIME},#{UPDATE_TIME}) -->
+	</insert>
+	
+	<parameterMap type="com.huntto.entity.FeedBack" id="feedBackMapParam">
+		<parameter property="ID"/>
+		<parameter property="FBType" />
+		<parameter property="FBContent" />
+		<parameter property="IDCARD" />
+		<parameter property="CREATE_TIME" jdbcType="TIMESTAMP" javaType="java.lang.String"/>
+		<parameter property="UPDATE_TIME" jdbcType="TIMESTAMP" javaType="java.lang.String"/>
+		<parameter property="IS_CL" />
+		<parameter property="MEDI_INTID" />
+	</parameterMap>
+	
+	<resultMap id="feedBackMap" type="com.huntto.entity.FeedBack" >
+		<!-- <result column="" property="" jdbcType="" javaType=""/> -->
+		<id column="ID" property="ID" />
+		<!-- <result column="ID" property="ID" /> -->
+		<result column="FBType" property="FBType" />
+		<result column="FBContent" property="FBContent" />
+		<result column="IDCARD" property="IDCARD" />
+		<result column="CREATE_TIME" property="CREATE_TIME" />
+		<result column="UPDATE_TIME" property="UPDATE_TIME" />
+		<result column="IS_CL" property="IS_CL" />
+		<result column="MEDI_INTID" property="MEDI_INTID" />
+		<!-- <result column="CREATE_TIME" property="CREATE_TIME" jdbcType="TIMESTAMP" javaType="java.lang.String" />
+		<result column="UPDATE_TIME" property="UPDATE_TIME" jdbcType="TIMESTAMP" javaType="java.lang.String" /> -->
+	</resultMap>
+</mapper>
